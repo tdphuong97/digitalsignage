@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/SignageVienBa.App/SignageVienBa.App.csproj" />
+    <Project Path="src/SignageVienBa.Core/SignageVienBa.Core.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/SignageVienBa.Tests/SignageVienBa.Tests.csproj" />
+  </Folder>
+</Solution>
