@@ -1,0 +1,20 @@
+---
+description: Các phiên bản đã phát hành và thay đổi trong từng bản.
+---
+
+# Nhật ký thay đổi
+
+Bộ cài của từng bản có ở trang [Releases](https://github.com/tdphuong97/digitalsignage/releases).
+
+{% updates format="full" %}
+{% update date="2026-11-06" %}
+## Phiên bản 1.0.0
+
+* Bản đầu tiên: chọn TV 1 hoặc TV 2 rồi đưa ảnh, video lên bằng một nút bấm.
+* Kéo thả ảnh, video hoặc cả thư mục vào cửa sổ, hoặc bấm Chọn file / Chọn thư mục.
+* Video tự chỉnh về khổ dọc 1080×1920, nền mờ, 30 hình/giây, dưới 85 MB; video đã đúng chuẩn được đưa lên thẳng.
+* Danh sách nội dung đang chiếu trên từng TV, có nút Xem và Xóa.
+* Mã API nhập một lần trong Cài đặt và được mã hóa theo tài khoản Windows.
+* Tự kiểm tra bản mới qua Internet, bấm Cập nhật ngay là tải về và cài.
+{% endupdate %}
+{% endupdates %}

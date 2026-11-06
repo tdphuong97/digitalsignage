@@ -2,6 +2,8 @@
 
 Phần mềm Windows đưa ảnh và video lên các TV trình chiếu (digital signage) của tòa nhà Viên Ba. Chọn TV, kéo file vào, bấm một nút: phần mềm tự nén video ngay trên máy rồi gửi lên máy chủ Cloudflare Worker mà các TV đang mở.
 
+Hướng dẫn sử dụng đầy đủ (cho người dùng và bộ phận IT, định dạng GitBook) nằm trong [docs/](docs/README.md).
+
 ## Dùng
 
 1. Cài bằng `SignageVienBa-Setup-<phiên bản>.exe` ở mục [Releases](../../releases). Không cần quyền admin.
