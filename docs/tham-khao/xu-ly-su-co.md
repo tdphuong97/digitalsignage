@@ -174,6 +174,18 @@ Xem phần lỗi trong [Cập nhật phần mềm](../su-dung/cap-nhat-phan-mem.
 
 </details>
 
+## Hướng dẫn
+
+<details>
+
+<summary>Không tìm thấy file hướng dẫn. Hãy cài lại phần mềm bằng bộ cài mới nhất.</summary>
+
+**Nguyên nhân:** file `HuongDan.html` trong thư mục cài đặt bị xóa, thường do phần mềm diệt virus hoặc xóa nhầm.
+
+**Cách khắc phục:** chạy bộ cài mới nhất, xem [Cài đặt](../bat-dau/cai-dat.md). Mã API đã lưu được giữ nguyên.
+
+</details>
+
 ## Gửi báo lỗi
 
 Nếu các cách trên không được, hoặc gặp hộp **Có lỗi không mong muốn**, gửi cho bộ phận IT:

@@ -219,6 +219,38 @@ public partial class MainWindow : Window, INotifyPropertyChanged
         Update.Hide();
     }
 
+    // The user guide (docs\, user pages only) is built into HuongDan.html next to the exe by build.ps1.
+    internal static string GuidePath =>
+        Environment.GetEnvironmentVariable("SIGNAGE_GUIDE") is { Length: > 0 } custom
+            ? custom
+            : Path.Combine(AppContext.BaseDirectory, "HuongDan.html");
+
+    private void Guide_Click(object sender, RoutedEventArgs e) => OpenGuide();
+
+    private void Window_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+    {
+        if (e.Key != System.Windows.Input.Key.F1) return;
+        e.Handled = true;
+        OpenGuide();
+    }
+
+    private void OpenGuide()
+    {
+        var path = GuidePath;
+        if (!File.Exists(path))
+        {
+            MessageBox.Show(this, "Không tìm thấy file hướng dẫn. Hãy cài lại phần mềm bằng bộ cài mới nhất.",
+                "Signage Viên Ba", MessageBoxButton.OK, MessageBoxImage.Warning);
+            return;
+        }
+        try { Process.Start(new ProcessStartInfo(path) { UseShellExecute = true }); }
+        catch (Exception ex) when (ex is Win32Exception or InvalidOperationException)
+        {
+            MessageBox.Show(this, "Không mở được hướng dẫn: " + ex.Message, "Signage Viên Ba",
+                MessageBoxButton.OK, MessageBoxImage.Warning);
+        }
+    }
+
     private void Window_Closing(object? sender, CancelEventArgs e)
     {
         if (!_busy) return;

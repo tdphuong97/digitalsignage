@@ -11,7 +11,7 @@ Bấm **Cài đặt** ở góc trên bên phải cửa sổ chính. Cửa sổ *
 | Tùy chọn | Mặc định | Ý nghĩa |
 | --- | --- | --- |
 | **Địa chỉ máy chủ** | `https://signage.vienba.workers.dev` | Địa chỉ máy chủ mà các TV đang mở. Chỉ đổi khi bộ phận IT yêu cầu. |
-| **Mã API** | Trống | Mật khẩu để được đưa file lên và xóa file. Do bộ phận IT cấp, xem [Mã API](../quan-tri/ma-api.md). Được mã hóa, chỉ dùng được với tài khoản Windows đang dùng. |
+| **Mã API** | Trống | Mật khẩu để được đưa file lên và xóa file. Do bộ phận IT cấp. Được mã hóa, chỉ dùng được với tài khoản Windows đang dùng. |
 | **Kiểm tra kết nối** | | Thử đọc danh sách TV 1 và thử mã API. Kết quả hiện ngay bên cạnh nút: **Kết nối được, mã API đúng.** hoặc lý do lỗi. |
 
 ## Phiên bản
@@ -34,5 +34,6 @@ Dùng khi thử nghiệm hoặc cài theo cách riêng. Người dùng bình th�
 | `SIGNAGE_DATA` | Thư mục lưu `settings.json` và `log.txt` thay cho `%APPDATA%\SignageVienBa`. |
 | `SIGNAGE_FFMPEG_DIR` | Thư mục chứa `ffmpeg.exe` và `ffprobe.exe` thay cho thư mục `ffmpeg` cạnh phần mềm. |
 | `SIGNAGE_UPDATE_FEED` | Địa chỉ `latest.json` thay cho bản phát hành mới nhất trên GitHub, để thử cập nhật. |
+| `SIGNAGE_GUIDE` | File hướng dẫn mà nút **Hướng dẫn** mở, thay cho `HuongDan.html` cạnh phần mềm. |
 
 </details>

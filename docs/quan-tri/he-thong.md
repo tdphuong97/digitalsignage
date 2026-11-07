@@ -49,7 +49,7 @@ Phần mềm không đổi link TV. Cài phần mềm trên máy mới không c�
 Trước đây, nhân viên bỏ file vào thư mục OneDrive `Signage-VienBa\Screen1`, `Screen2`, và script `sync-to-cloudflare-final.ps1` chạy theo lịch trong Task Scheduler để đẩy lên. Phần mềm thay toàn bộ cách này.
 
 {% hint style="danger" %}
-Tắt mọi lịch chạy `sync-to-cloudflare-final.ps1` trong Task Scheduler. Script cũ xóa trên TV mọi file không có trong thư mục OneDrive, tức là xóa luôn những gì đưa lên bằng phần mềm.
+Tắt mọi lịch chạy `sync-to-cloudflare-final.ps1` trong Task Scheduler. Script cũ xóa trên TV mọi file không có trong thư mục OneDrive, tức là xóa luôn những gì đưa lên bằng phần mềm. Cách làm từng bước ở trang [Chuyển sang phần mềm mới](chuyen-sang-phan-mem-moi.md).
 {% endhint %}
 
 Các file đưa lên từ hệ thống cũ vẫn ở trên TV và hiện trong phần mềm. File video cũ của TV 1 có tên bắt đầu bằng `video/`.

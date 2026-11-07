@@ -1,8 +1,10 @@
-# Builds Signage Vien Ba: ffmpeg copy, tests, the app, and the installer.
+# Builds Signage Vien Ba: ffmpeg copy, tests, the app with its user guide, and the installer.
 #   .\build.ps1                 full build, installer in dist\
 #   .\build.ps1 -SkipTests      skip the unit tests
 #   .\build.ps1 -SkipInstaller  stop after dist\app
 #   .\build.ps1 -Publish        also publish a GitHub release (build\publish.ps1); installed copies offer it as an update
+# Needs Python 3 and the guidebook builder (GUIDEBOOK_PY, default ~\.claude\skills\guidebook\scripts\guidebook.py)
+# for HuongDan.html, the user guide the app opens from its "Huong dan" button.
 # E2E tests against a local Worker are separate: tests\e2e\start-local-worker.ps1, then
 #   $env:SIGNAGE_E2E_URL='http://127.0.0.1:8787'; $env:SIGNAGE_E2E_KEY='test-key'; dotnet test tests\SignageVienBa.Tests
 param([switch]$SkipTests, [switch]$SkipInstaller, [switch]$Publish)
@@ -12,8 +14,8 @@ Set-Location -LiteralPath $PSScriptRoot
 # ---------- ffmpeg (shared build, reused from VDM) ----------
 $ffDir = Join-Path $PSScriptRoot 'deps\ffmpeg'
 if (-not (Test-Path (Join-Path $ffDir 'ffmpeg.exe'))) {
-    $candidates = @('C:\Claude\IDM\deps\tools') +
-        @(Get-ChildItem 'C:\Claude\IDM\deps\cache\ffmpeg\*\bin' -Directory -ErrorAction SilentlyContinue | ForEach-Object { $_.FullName })
+    $candidates = @('C:\Claude\CaNhan\IDM\deps\tools') +
+        @(Get-ChildItem 'C:\Claude\CaNhan\IDM\deps\cache\ffmpeg\*\bin' -Directory -ErrorAction SilentlyContinue | ForEach-Object { $_.FullName })
     $src = $candidates | Where-Object {
         (Test-Path (Join-Path $_ 'ffmpeg.exe')) -and (Test-Path (Join-Path $_ 'ffprobe.exe'))
     } | Select-Object -First 1
@@ -49,6 +51,12 @@ if ($LASTEXITCODE) { throw 'Publish failed.' }
 Get-ChildItem $app -Recurse -Include *.pdb, *.xml | Remove-Item
 Copy-Item $ffDir (Join-Path $app 'ffmpeg') -Recurse
 if (-not (Test-Path (Join-Path $app 'SignageVienBa.exe'))) { throw 'dist\app\SignageVienBa.exe is missing after publish.' }
+
+# ---------- user guide: docs\ without the IT pages (build\make-guide.py) ----------
+if (-not (Get-Command python -ErrorAction SilentlyContinue)) { throw 'Python 3 is missing (needed to build the user guide).' }
+$guidebook = if ($env:GUIDEBOOK_PY) { $env:GUIDEBOOK_PY } else { Join-Path $HOME '.claude\skills\guidebook\scripts\guidebook.py' }
+python build\make-guide.py $guidebook (Join-Path $app 'HuongDan.html')
+if ($LASTEXITCODE) { throw 'User guide build failed (build\make-guide.py); set GUIDEBOOK_PY if guidebook.py is elsewhere.' }
 "App: {0:N0} MB in {1}" -f ((Get-ChildItem $app -Recurse | Measure-Object Length -Sum).Sum / 1MB), $app
 
 if ($SkipInstaller) { return }

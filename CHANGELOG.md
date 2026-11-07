@@ -2,6 +2,9 @@
 
 Mỗi phiên bản là một mục `## <phiên bản>`, mỗi thay đổi một dòng. `build\publish.ps1` lấy đúng mục của phiên bản đang phát hành làm ghi chú cho bản cập nhật.
 
+## 1.0.1
+- Nút Hướng dẫn ở góc trên cửa sổ (hoặc nhấn F1) mở hướng dẫn sử dụng ngay trên máy, không cần mạng.
+
 ## 1.0.0
 - Bản đầu tiên: chọn TV 1 hoặc TV 2 rồi đưa ảnh, video lên bằng một nút bấm.
 - Kéo thả ảnh, video hoặc cả thư mục vào cửa sổ, hoặc bấm Chọn file / Chọn thư mục.

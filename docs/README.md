@@ -16,6 +16,7 @@ description: Phần mềm Windows để đưa ảnh, video lên 2 TV trình chi�
 * **Tự chỉnh video**: video ngang hay video quay bằng điện thoại đều được chỉnh về khổ dọc 1080×1920, nền mờ, dưới 85 MB.
 * **Thấy ngay TV đang chiếu gì**: danh sách bên trái đúng theo thứ tự chiếu, có nút **Xem** và **Xóa** ở từng dòng.
 * **Tự cập nhật**: có bản mới thì phần mềm báo, bấm **Cập nhật ngay** là xong.
+* **Hướng dẫn ngay trong phần mềm**: bấm **Hướng dẫn** ở góc trên cửa sổ hoặc nhấn `F1`, xem được cả khi không có mạng.
 
 ## Bạn cần đọc trang nào
 
@@ -40,8 +41,8 @@ description: Phần mềm Windows để đưa ảnh, video lên 2 TV trình chi�
     </tr>
     <tr>
       <td><strong>Tôi quản trị hệ thống</strong></td>
-      <td>Mã API, cách các thành phần nối với nhau, phát hành bản mới.</td>
-      <td><a href="quan-tri/he-thong.md">he-thong.md</a></td>
+      <td>Chuyển từ script cũ sang phần mềm, mã API, cách các thành phần nối với nhau, phát hành bản mới.</td>
+      <td><a href="quan-tri/chuyen-sang-phan-mem-moi.md">chuyen-sang-phan-mem-moi.md</a></td>
     </tr>
   </tbody>
 </table>

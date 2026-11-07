@@ -6,7 +6,7 @@
         WindowStartupLocation="CenterScreen" Style="{StaticResource BaseWindow}"
         AllowDrop="True" PreviewDragEnter="Window_DragEnter" PreviewDragOver="Window_DragOver"
         PreviewDragLeave="Window_DragLeave" PreviewDrop="Window_Drop"
-        ContentRendered="Window_ContentRendered" Closing="Window_Closing">
+        ContentRendered="Window_ContentRendered" Closing="Window_Closing" PreviewKeyDown="Window_PreviewKeyDown">
   <Window.Resources>
     <BooleanToVisibilityConverter x:Key="BoolToVis"/>
   </Window.Resources>
@@ -48,6 +48,8 @@
     <DockPanel>
       <Button DockPanel.Dock="Right" Style="{StaticResource GhostButton}" Tag="&#xE713;" Content="Cài đặt"
               VerticalAlignment="Top" Click="Settings_Click"/>
+      <Button x:Name="GuideButton" DockPanel.Dock="Right" Style="{StaticResource GhostButton}" Tag="&#xE897;" Content="Hướng dẫn"
+              VerticalAlignment="Top" Margin="0,0,4,0" Click="Guide_Click" ToolTip="Mở hướng dẫn sử dụng (F1)"/>
       <StackPanel>
         <TextBlock Text="Đưa nội dung lên TV" FontSize="23" FontWeight="SemiBold"/>
         <TextBlock Style="{StaticResource Muted}" FontSize="13.5" Margin="0,3,0,0"

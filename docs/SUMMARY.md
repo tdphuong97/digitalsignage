@@ -21,6 +21,7 @@
 
 ## Quản trị (bộ phận IT)
 
+* [Chuyển sang phần mềm mới](quan-tri/chuyen-sang-phan-mem-moi.md)
 * [Mã API](quan-tri/ma-api.md)
 * [Cách hệ thống hoạt động](quan-tri/he-thong.md)
 * [Phát hành bản mới](quan-tri/phat-hanh.md)

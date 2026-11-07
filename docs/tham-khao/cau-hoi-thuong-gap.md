@@ -72,7 +72,7 @@ Phần mềm giữ nguyên tiếng của video. TV có phát tiếng hay không 
 
 <summary>Tôi quên mã API thì làm sao?</summary>
 
-Hỏi bộ phận IT. Bộ phận IT xem cách lấy lại hoặc đổi mã ở trang [Mã API](../quan-tri/ma-api.md).
+Hỏi bộ phận IT. Cách lấy lại hoặc đổi mã nằm ở trang [Mã API](../quan-tri/ma-api.md), trong bản hướng dẫn đầy đủ của bộ phận IT.
 
 </details>
 

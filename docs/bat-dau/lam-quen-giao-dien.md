@@ -10,7 +10,7 @@ Phần mềm chỉ có một cửa sổ chính. Phía trên là nơi chọn TV, 
 
 | Số | Vùng | Dùng để |
 | --- | --- | --- |
-| 1 | **Cài đặt** | Nhập mã API, kiểm tra kết nối, xem phiên bản và kiểm tra bản mới. |
+| 1 | **Hướng dẫn**, **Cài đặt** | **Hướng dẫn** (hoặc nhấn `F1`) mở hướng dẫn này trong trình duyệt, không cần mạng. **Cài đặt** để nhập mã API, kiểm tra kết nối, xem phiên bản và kiểm tra bản mới. |
 | 2 | **TV 1**, **TV 2** | Chọn TV cần làm việc. Dòng nhỏ bên dưới cho biết TV đó đang chiếu bao nhiêu nội dung. |
 | 3 | **Đang chiếu trên TV 1** | Nội dung TV đang chiếu, theo đúng thứ tự chiếu. Mỗi dòng có **Xem** và **Xóa**. Bấm **Làm mới** để tải lại danh sách. |
 | 4 | Khung kéo thả | Thả ảnh, video hoặc thư mục vào đây, hoặc bấm **Chọn file…**, **Chọn thư mục…**. |

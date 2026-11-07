@@ -7,6 +7,12 @@ description: Các phiên bản đã phát hành và thay đổi trong từng b�
 Bộ cài của từng bản có ở trang [Releases](https://github.com/tdphuong97/digitalsignage/releases).
 
 {% updates format="full" %}
+{% update date="2026-11-07" %}
+## Phiên bản 1.0.1
+
+* Nút **Hướng dẫn** ở góc trên cửa sổ (hoặc nhấn `F1`) mở hướng dẫn sử dụng ngay trên máy, không cần mạng.
+{% endupdate %}
+
 {% update date="2026-11-06" %}
 ## Phiên bản 1.0.0
 
