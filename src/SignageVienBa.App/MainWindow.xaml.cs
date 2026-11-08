@@ -243,12 +243,7 @@ public partial class MainWindow : Window, INotifyPropertyChanged
                 "Signage Viên Ba", MessageBoxButton.OK, MessageBoxImage.Warning);
             return;
         }
-        try { Process.Start(new ProcessStartInfo(path) { UseShellExecute = true }); }
-        catch (Exception ex) when (ex is Win32Exception or InvalidOperationException)
-        {
-            MessageBox.Show(this, "Không mở được hướng dẫn: " + ex.Message, "Signage Viên Ba",
-                MessageBoxButton.OK, MessageBoxImage.Warning);
-        }
+        GuideWindow.Open(this, path);
     }
 
     private void Window_Closing(object? sender, CancelEventArgs e)
@@ -339,10 +334,46 @@ public partial class MainWindow : Window, INotifyPropertyChanged
         if (((FrameworkElement)sender).DataContext is not RemoteItem item) return;
         try
         {
-            var url = _settings.CreateClient().FileUri(item.Key).AbsoluteUri;
-            Process.Start(new ProcessStartInfo(url) { UseShellExecute = true });
+            ViewerWindow.Open(this, item.DisplayName, _settings.CreateClient().FileUri(item.Key));
         }
-        catch (Exception ex) when (ex is SignageException or Win32Exception)
+        catch (SignageException ex)
+        {
+            MessageBox.Show(this, ex.Message, "Signage Viên Ba", MessageBoxButton.OK, MessageBoxImage.Warning);
+        }
+    }
+
+    // ---------- TV links (the slideshow page each TV opens) ----------
+
+    public string Tv1Link => TvLink(new TvScreen(1));
+    public string Tv2Link => TvLink(new TvScreen(2));
+
+    private string TvLink(TvScreen tv)
+    {
+#if DEBUG
+        // Screenshots for docs\ are taken against a local test Worker but should show the real links.
+        if (Environment.GetEnvironmentVariable("SIGNAGE_DOCS_LINK_BASE") is { Length: > 0 } shown)
+            return new SignageClient(AppSettings.Http, shown, "").PageUri(tv).AbsoluteUri;
+#endif
+        try { return _settings.CreateClient().PageUri(tv).AbsoluteUri; }
+        catch (SignageException) { return "Chưa có địa chỉ máy chủ, vào Cài đặt"; }
+    }
+
+    private static TvScreen TvOf(object sender) => new(int.Parse((string)((Button)sender).CommandParameter));
+
+    private void CopyTvLink_Click(object sender, RoutedEventArgs e)
+    {
+        try { LinkCopy.Copy((Button)sender, _settings.CreateClient().PageUri(TvOf(sender)).AbsoluteUri); }
+        catch (SignageException ex)
+        {
+            MessageBox.Show(this, ex.Message, "Signage Viên Ba", MessageBoxButton.OK, MessageBoxImage.Warning);
+        }
+    }
+
+    private void ViewTv_Click(object sender, RoutedEventArgs e)
+    {
+        var tv = TvOf(sender);
+        try { ViewerWindow.Open(this, $"{tv.Label} đang chiếu", _settings.CreateClient().PageUri(tv)); }
+        catch (SignageException ex)
         {
             MessageBox.Show(this, ex.Message, "Signage Viên Ba", MessageBoxButton.OK, MessageBoxImage.Warning);
         }
@@ -529,6 +560,9 @@ public partial class MainWindow : Window, INotifyPropertyChanged
     private bool OpenSettings(bool firstRun)
     {
         var window = new SettingsWindow(_settings, firstRun, CheckForUpdateAsync) { Owner = this };
-        return window.ShowDialog() == true;
+        if (window.ShowDialog() != true) return false;
+        Raise(nameof(Tv1Link));
+        Raise(nameof(Tv2Link));
+        return true;
     }
 }

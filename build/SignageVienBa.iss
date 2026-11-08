@@ -45,6 +45,11 @@ Source: "..\dist\app\*"; DestDir: "{app}"; Flags: recursesubdirs ignoreversion
 Name: "{autoprograms}\Signage Viên Ba"; Filename: "{app}\SignageVienBa.exe"
 Name: "{autodesktop}\Signage Viên Ba"; Filename: "{app}\SignageVienBa.exe"; Tasks: desktopicon
 
+[UninstallDelete]
+; the guide window's WebView2 cache (settings in %APPDATA%\SignageVienBa stay, as before)
+Type: filesandordirs; Name: "{localappdata}\SignageVienBa\WebView2"
+Type: dirifempty; Name: "{localappdata}\SignageVienBa"
+
 [Run]
 Filename: "{app}\SignageVienBa.exe"; Description: "Mở Signage Viên Ba ngay"; Flags: nowait postinstall skipifsilent
 ; An update started from inside the app runs silently: open the app again when it is done.

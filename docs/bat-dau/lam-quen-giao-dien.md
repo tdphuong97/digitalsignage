@@ -4,18 +4,19 @@ description: Các vùng trên cửa sổ chính và ý nghĩa các trạng thái
 
 # Làm quen giao diện
 
-Phần mềm chỉ có một cửa sổ chính. Phía trên là nơi chọn TV, bên trái là những gì TV đang chiếu, bên phải là chỗ thêm nội dung mới.
+Mọi việc làm trên cửa sổ chính. Phía trên là nơi chọn TV và link của từng TV, bên trái là những gì TV đang chiếu, bên phải là chỗ thêm nội dung mới. Hướng dẫn và nút **Xem** mở thêm cửa sổ riêng của phần mềm, không mở trình duyệt.
 
-<figure><img src="../.gitbook/assets/man-hinh-chinh-so.svg" alt="Cửa sổ chính, đánh số các vùng từ 1 đến 6"><figcaption><p>Các vùng trên cửa sổ chính</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/man-hinh-chinh-so.svg" alt="Cửa sổ chính, đánh số các vùng từ 1 đến 7"><figcaption><p>Các vùng trên cửa sổ chính</p></figcaption></figure>
 
 | Số | Vùng | Dùng để |
 | --- | --- | --- |
-| 1 | **Hướng dẫn**, **Cài đặt** | **Hướng dẫn** (hoặc nhấn `F1`) mở hướng dẫn này trong trình duyệt, không cần mạng. **Cài đặt** để nhập mã API, kiểm tra kết nối, xem phiên bản và kiểm tra bản mới. |
+| 1 | **Hướng dẫn**, **Cài đặt** | **Hướng dẫn** (hoặc nhấn `F1`) mở hướng dẫn này trong một cửa sổ riêng, không cần mạng. **Cài đặt** để nhập mã API, kiểm tra kết nối, xem phiên bản và kiểm tra bản mới. |
 | 2 | **TV 1**, **TV 2** | Chọn TV cần làm việc. Dòng nhỏ bên dưới cho biết TV đó đang chiếu bao nhiêu nội dung. |
-| 3 | **Đang chiếu trên TV 1** | Nội dung TV đang chiếu, theo đúng thứ tự chiếu. Mỗi dòng có **Xem** và **Xóa**. Bấm **Làm mới** để tải lại danh sách. |
-| 4 | Khung kéo thả | Thả ảnh, video hoặc thư mục vào đây, hoặc bấm **Chọn file…**, **Chọn thư mục…**. |
-| 5 | Danh sách chờ | Các file vừa thêm và trạng thái của từng file. |
-| 6 | **Đưa lên TV 1** | Bắt đầu gửi các file đang chờ lên TV đã chọn. Khi đang gửi, nút này đổi thành **Dừng**. |
+| 3 | **Link TV 1**, **Link TV 2** | Link mà mỗi TV mở để chiếu. **Chép** chép link, ví dụ để gửi cho người cài TV. **Xem** mở cửa sổ xem đúng trang TV đó đang chiếu, chạy lần lượt như trên TV. |
+| 4 | **Đang chiếu trên TV 1** | Nội dung TV đang chiếu, theo đúng thứ tự chiếu. Mỗi dòng có **Xem** (mở ảnh, video trong cửa sổ xem) và **Xóa**. Bấm **Làm mới** để tải lại danh sách. |
+| 5 | Khung kéo thả | Thả ảnh, video hoặc thư mục vào đây, hoặc bấm **Chọn file…**, **Chọn thư mục…**. |
+| 6 | Danh sách chờ | Các file vừa thêm và trạng thái của từng file. Tên hiện ở đây là tên sẽ có trên TV. |
+| 7 | **Đưa lên TV 1** | Bắt đầu gửi các file đang chờ lên TV đã chọn. Khi đang gửi, nút này đổi thành **Dừng**. |
 
 ## Trạng thái file trong danh sách chờ
 

@@ -14,6 +14,22 @@ TV đọc lại danh sách mỗi khi chiếu hết một vòng. Nội dung mới
 
 <details>
 
+<summary>Xem TV đang chiếu gì mà không cần đứng trước TV?</summary>
+
+Bấm **Xem** cạnh **Link TV 1** (hoặc **Link TV 2**) ở đầu cửa sổ. Cửa sổ xem mở đúng trang mà TV đó đang mở, chiếu lần lượt như trên TV. Nội dung vừa đưa lên hiện từ vòng chiếu sau.
+
+</details>
+
+<details>
+
+<summary>Link của TV 1, TV 2 là gì?</summary>
+
+Link nằm ở đầu cửa sổ chính, bấm **Chép** để chép. Đây là trang mà TV mở để chiếu, ai có link cũng xem được nên chỉ gửi cho người cần cài TV. Đưa hay xóa nội dung vẫn phải dùng phần mềm, có mã API.
+
+</details>
+
+<details>
+
 <summary>Mỗi ảnh hiện trên TV bao lâu?</summary>
 
 Mỗi ảnh hiện 8 giây. Video chiếu hết rồi mới chuyển sang nội dung tiếp theo.

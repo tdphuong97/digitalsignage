@@ -13,8 +13,8 @@ public static partial class NameRules
     private const int MaxStemLength = 120;
 
     /// <summary>
-    /// File name to store on the TV: the original name (NFC, unsafe characters replaced by '-')
-    /// with the given extension in lower case.
+    /// File name to store on the TV: the original name (NFC, unsafe characters replaced by '-', and no spaces:
+    /// each run of spaces, with the dashes around it, becomes one '-') with the given extension in lower case.
     /// </summary>
     public static string SafeName(string sourcePath, string extension)
     {
@@ -23,17 +23,17 @@ public static partial class NameRules
         foreach (var ch in stem)
             sb.Append(char.IsControl(ch) || Bad.Contains(ch) ? '-' : ch);
 
-        var clean = Spaces().Replace(sb.ToString(), " ").Trim().Trim('.').Trim();
+        var clean = Spaces().Replace(sb.ToString().Trim().Trim('.').Trim(), "-");
         if (clean.Length > MaxStemLength)
         {
             var cut = char.IsHighSurrogate(clean[MaxStemLength - 1]) ? MaxStemLength - 1 : MaxStemLength;
-            clean = clean[..cut].TrimEnd();
+            clean = clean[..cut].TrimEnd('-');
         }
         if (clean.Length == 0) clean = "noi-dung";
         return clean + extension.ToLowerInvariant();
     }
 
-    /// <summary>"a.mp4" → "a (2).mp4" when "a.mp4" is already taken (case-insensitive).</summary>
+    /// <summary>"a.mp4" → "a-2.mp4" when "a.mp4" is already taken (case-insensitive).</summary>
     public static string Unique(string name, ICollection<string> taken)
     {
         bool Taken(string n) => taken.Any(t => string.Equals(t, n, StringComparison.OrdinalIgnoreCase));
@@ -42,7 +42,7 @@ public static partial class NameRules
         var ext = Path.GetExtension(name);
         for (var i = 2; ; i++)
         {
-            var candidate = $"{stem} ({i}){ext}";
+            var candidate = $"{stem}-{i}{ext}";
             if (!Taken(candidate)) return candidate;
         }
     }
@@ -59,6 +59,7 @@ public static partial class NameRules
     public static string EncodeKey(string key) =>
         string.Join('/', key.Split('/').Select(Uri.EscapeDataString));
 
-    [GeneratedRegex(@"\s+")]
+    // "a b", "a  b", "a - b" → "a-b"; "a--b" (no space) stays as the user wrote it.
+    [GeneratedRegex(@"-*\s+[\s-]*")]
     private static partial Regex Spaces();
 }

@@ -117,6 +117,16 @@ public class SignageClientTests : IDisposable
         var client = new SignageClient(new HttpClient(), "https://signage.example.dev", "k");
         Assert.Equal("https://signage.example.dev/screen2/a%20%23b.mp4", client.FileUri("screen2/a #b.mp4").AbsoluteUri);
     }
+
+    [Theory]
+    [InlineData("https://signage.example.dev")]
+    [InlineData(" https://signage.example.dev/ ")]
+    public void Page_uri_is_the_link_each_tv_opens(string baseUrl)
+    {
+        var client = new SignageClient(new HttpClient(), baseUrl, "");
+        Assert.Equal("https://signage.example.dev/", client.PageUri(new TvScreen(1)).AbsoluteUri);
+        Assert.Equal("https://signage.example.dev/?screen=2", client.PageUri(new TvScreen(2)).AbsoluteUri);
+    }
 }
 
 /// <summary>IProgress that records synchronously (Progress&lt;T&gt; posts to the thread pool).</summary>

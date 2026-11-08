@@ -10,14 +10,16 @@ public class NameRulesTests
     {
         var nfd = "Khai trương".Normalize(NormalizationForm.FormD);
         var name = NameRules.SafeName($@"D:\video\{nfd}.MOV", ".mp4");
-        Assert.Equal("Khai trương.mp4", name);
+        Assert.Equal("Khai-trương.mp4", name);
         Assert.True(name.IsNormalized(NormalizationForm.FormC));
     }
 
     [Theory]
-    [InlineData(@"C:\a\Sự kiện #1?.jpg", ".jpg", "Sự kiện -1-.jpg")]
-    [InlineData(@"C:\a\giảm 50%.PNG", ".PNG", "giảm 50-.png")]
-    [InlineData(@"C:\a\  nhiều    khoảng   trắng  .jpg", ".jpg", "nhiều khoảng trắng.jpg")]
+    [InlineData(@"C:\a\Sự kiện #1?.jpg", ".jpg", "Sự-kiện-1-.jpg")]
+    [InlineData(@"C:\a\giảm 50%.PNG", ".PNG", "giảm-50-.png")]
+    [InlineData(@"C:\a\  nhiều    khoảng   trắng  .jpg", ".jpg", "nhiều-khoảng-trắng.jpg")]
+    [InlineData(@"C:\a\02 - Khuyến mãi tháng 11.MP4", ".mp4", "02-Khuyến-mãi-tháng-11.mp4")]
+    [InlineData(@"C:\a\01--Chào.jpg", ".jpg", "01--Chào.jpg")]
     [InlineData(@"C:\a\....jpg", ".jpg", "noi-dung.jpg")]
     public void SafeName_replaces_characters_that_break_urls(string path, string ext, string expected) =>
         Assert.Equal(expected, NameRules.SafeName(path, ext));
@@ -27,13 +29,23 @@ public class NameRulesTests
     {
         var name = NameRules.SafeName(@"C:\" + new string('a', 300) + ".mp4", ".mp4");
         Assert.Equal(120 + 4, name.Length);
+        // a cut right after a former space does not leave a '-' at the end
+        Assert.Equal(new string('a', 119) + ".mp4", NameRules.SafeName(@"C:\" + new string('a', 119) + " bbb.mp4", ".mp4"));
     }
+
+    [Theory]
+    [InlineData("a b")]
+    [InlineData(" a\u00A0b ")]
+    [InlineData("a\u3000b")]
+    [InlineData("Tết 2027 - chúc mừng năm mới")]
+    public void SafeName_never_contains_spaces(string stem) =>
+        Assert.DoesNotContain(NameRules.SafeName($@"C:\x\{stem}.jpg", ".jpg"), char.IsWhiteSpace);
 
     [Fact]
     public void Unique_adds_a_number_ignoring_case()
     {
-        var taken = new List<string> { "a.mp4", "A (2).mp4" };
-        Assert.Equal("a (3).mp4", NameRules.Unique("a.mp4", taken));
+        var taken = new List<string> { "a.mp4", "A-2.mp4" };
+        Assert.Equal("a-3.mp4", NameRules.Unique("a.mp4", taken));
         Assert.Equal("b.mp4", NameRules.Unique("b.mp4", taken));
     }
 

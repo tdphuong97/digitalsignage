@@ -11,7 +11,7 @@ Không hoàn tác được. Muốn TV chiếu lại nội dung đã xóa, bạn 
 {% endhint %}
 
 1. Bấm **TV 1** hoặc **TV 2** để chọn TV có nội dung cần gỡ.
-2. Trong danh sách **Đang chiếu trên TV …**, tìm dòng cần gỡ. (Không bắt buộc) Bấm **Xem** để mở file trong trình duyệt và kiểm tra đúng file.
+2. Trong danh sách **Đang chiếu trên TV …**, tìm dòng cần gỡ. (Không bắt buộc) Bấm **Xem** để mở file trong cửa sổ xem và kiểm tra đúng file.
 3. Bấm **Xóa** ở dòng đó. Hộp **Xóa khỏi TV** hỏi **Xóa “…” khỏi TV 1?**. Bấm **Yes** (Windows tiếng Việt: **Có**).
 
 {% hint style="success" %}

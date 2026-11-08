@@ -32,7 +32,7 @@ Commit mọi thay đổi và push lên nhánh `main`.
 {% step %}
 ### Build và phát hành
 
-Chạy `.\build.ps1 -Publish`. Script chạy test, build phần mềm, build bản hướng dẫn cho người dùng (`HuongDan.html`, không có các trang Quản trị), tạo bộ cài, rồi tạo release `v1.0.1` trên GitHub kèm bộ cài và `latest.json`.
+Chạy `.\build.ps1 -Publish`. Script chạy test, build phần mềm, build bản hướng dẫn cho người dùng (`HuongDan.html`, không có các trang Quản trị), tạo bộ cài, rồi tạo release `v<phiên bản>` (ví dụ `v1.0.2`) trên GitHub kèm bộ cài và `latest.json`.
 
 Muốn xem trước mà không thay đổi gì trên GitHub: `.\build\publish.ps1 -DryRun`.
 {% endstep %}

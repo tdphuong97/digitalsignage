@@ -186,6 +186,16 @@ Xem phần lỗi trong [Cập nhật phần mềm](../su-dung/cap-nhat-phan-mem.
 
 </details>
 
+<details>
+
+<summary>Hướng dẫn hoặc nút Xem mở trình duyệt thay vì cửa sổ của phần mềm</summary>
+
+**Nguyên nhân:** máy thiếu Microsoft Edge WebView2 Runtime, phần Windows mà cửa sổ hướng dẫn và cửa sổ xem dùng để hiển thị. Windows 11 và Windows 10 được cập nhật đều có sẵn.
+
+**Cách khắc phục:** vẫn dùng bình thường trong trình duyệt. Muốn chúng mở trong phần mềm, nhờ IT cài WebView2 Runtime (bản Evergreen) từ [trang của Microsoft](https://developer.microsoft.com/microsoft-edge/webview2/), rồi mở lại phần mềm.
+
+</details>
+
 ## Gửi báo lỗi
 
 Nếu các cách trên không được, hoặc gặp hộp **Có lỗi không mong muốn**, gửi cho bộ phận IT:

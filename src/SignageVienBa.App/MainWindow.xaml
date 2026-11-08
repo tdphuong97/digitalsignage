@@ -57,8 +57,9 @@
       </StackPanel>
     </DockPanel>
 
-    <!-- TV picker -->
-    <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0,20,0,18" IsEnabled="{Binding CanSwitchTv}">
+    <!-- TV picker, and the link each TV opens -->
+    <DockPanel Grid.Row="2" Margin="0,20,0,18">
+    <StackPanel DockPanel.Dock="Left" Orientation="Horizontal" IsEnabled="{Binding CanSwitchTv}">
       <RadioButton x:Name="Tv1Tab" Style="{StaticResource TvTab}" GroupName="Tv" Tag="1" IsChecked="True"
                    Checked="Tv_Checked" AutomationProperties.Name="TV 1">
         <StackPanel Orientation="Horizontal">
@@ -84,6 +85,37 @@
         </StackPanel>
       </RadioButton>
     </StackPanel>
+
+    <Border Background="{StaticResource SurfaceBrush}" BorderBrush="{StaticResource LineBrush}" BorderThickness="1"
+            CornerRadius="12" Height="66" Padding="16,0,6,0" AutomationProperties.Name="Link TV">
+      <Grid VerticalAlignment="Center">
+        <Grid.RowDefinitions>
+          <RowDefinition Height="29"/>
+          <RowDefinition Height="29"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto"/>
+          <ColumnDefinition Width="*"/>
+          <ColumnDefinition Width="Auto"/>
+          <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <TextBlock Text="Link TV 1" FontWeight="SemiBold" FontSize="13" VerticalAlignment="Center" Margin="0,0,12,0"/>
+        <TextBlock Grid.Column="1" Text="{Binding Tv1Link}" ToolTip="{Binding Tv1Link}" Style="{StaticResource Muted}"
+                   FontSize="13" TextTrimming="CharacterEllipsis" VerticalAlignment="Center"/>
+        <Button Grid.Column="2" Style="{StaticResource GhostButton}" Tag="&#xE8C8;" Content="Chép" Padding="8,4"
+                CommandParameter="1" Click="CopyTvLink_Click" ToolTip="Chép link TV 1" AutomationProperties.AutomationId="CopyTv1"/>
+        <Button Grid.Column="3" Style="{StaticResource GhostButton}" Tag="&#xE8A7;" Content="Xem" Padding="8,4"
+                CommandParameter="1" Click="ViewTv_Click" ToolTip="Xem TV 1 đang chiếu gì" AutomationProperties.AutomationId="ViewTv1"/>
+        <TextBlock Grid.Row="1" Text="Link TV 2" FontWeight="SemiBold" FontSize="13" VerticalAlignment="Center" Margin="0,0,12,0"/>
+        <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Tv2Link}" ToolTip="{Binding Tv2Link}" Style="{StaticResource Muted}"
+                   FontSize="13" TextTrimming="CharacterEllipsis" VerticalAlignment="Center"/>
+        <Button Grid.Row="1" Grid.Column="2" Style="{StaticResource GhostButton}" Tag="&#xE8C8;" Content="Chép" Padding="8,4"
+                CommandParameter="2" Click="CopyTvLink_Click" ToolTip="Chép link TV 2" AutomationProperties.AutomationId="CopyTv2"/>
+        <Button Grid.Row="1" Grid.Column="3" Style="{StaticResource GhostButton}" Tag="&#xE8A7;" Content="Xem" Padding="8,4"
+                CommandParameter="2" Click="ViewTv_Click" ToolTip="Xem TV 2 đang chiếu gì" AutomationProperties.AutomationId="ViewTv2"/>
+      </Grid>
+    </Border>
+    </DockPanel>
 
     <Grid Grid.Row="3">
       <Grid.ColumnDefinitions>
@@ -133,7 +165,7 @@
                       </StackPanel>
                       <StackPanel Grid.Column="3" Orientation="Horizontal" VerticalAlignment="Center" Margin="8,0,0,0">
                         <Button Style="{StaticResource GhostButton}" Tag="&#xE8A7;" Content="Xem" Click="View_Click"
-                                ToolTip="Mở file này trong trình duyệt"/>
+                                ToolTip="Xem ảnh, video này"/>
                         <Button Style="{StaticResource DangerGhostButton}" Tag="&#xE74D;" Content="Xóa" Click="Delete_Click"
                                 ToolTip="Xóa khỏi TV" Margin="2,0,0,0"/>
                       </StackPanel>

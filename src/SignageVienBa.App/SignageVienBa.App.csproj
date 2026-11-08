@@ -9,7 +9,7 @@
     <AssemblyName>SignageVienBa</AssemblyName>
     <RootNamespace>SignageVienBa.App</RootNamespace>
     <Product>Signage Viên Ba</Product>
-    <Version>1.0.1</Version>
+    <Version>1.0.2</Version>
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
 
@@ -23,6 +23,11 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SignageVienBa.Core\SignageVienBa.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- shows the user guide (HuongDan.html) in its own window -->
+    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.4314.35" />
   </ItemGroup>
 
 </Project>

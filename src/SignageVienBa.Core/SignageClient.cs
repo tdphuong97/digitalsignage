@@ -34,6 +34,9 @@ public sealed class SignageClient
 
     public Uri FileUri(string key) => new(_base, NameRules.EncodeKey(key));
 
+    /// <summary>The slideshow page a TV opens: the Worker's root for TV 1, "?screen=N" for the others.</summary>
+    public Uri PageUri(TvScreen tv) => tv.Number == 1 ? _base : new Uri(_base, $"?screen={tv.Number}");
+
     /// <summary>The TV's playlist, in play order.</summary>
     public async Task<IReadOnlyList<string>> ListAsync(TvScreen tv, CancellationToken ct)
     {

@@ -39,14 +39,14 @@ public class EndToEndTests : IDisposable
         var tv2 = new TvScreen(2);
         var src = Clips.Make(_dir, "Khai trương #1.mov", 1280, 720, 30, 2, audio: true);
         var name = Uploader.TargetName(src);
-        Assert.Equal("Khai trương -1.mp4", name);
+        Assert.Equal("Khai-trương-1.mp4", name);
 
         var stages = new List<JobStage>();
         var key = await new Uploader(Clips.Tools, client).RunAsync(src, name, tv2,
             new SyncJobProgress(p => { lock (stages) if (stages.LastOrDefault() != p.Stage || stages.Count == 0) stages.Add(p.Stage); }),
             CancellationToken.None);
 
-        Assert.Equal("screen2/Khai trương -1.mp4", key);
+        Assert.Equal("screen2/Khai-trương-1.mp4", key);
         Assert.Equal([JobStage.Checking, JobStage.Compressing, JobStage.Uploading], stages.Distinct());
         Assert.Contains(key, await client.ListAsync(tv2, CancellationToken.None));
         Assert.DoesNotContain(key, await client.ListAsync(new TvScreen(1), CancellationToken.None));

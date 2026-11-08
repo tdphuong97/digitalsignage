@@ -7,6 +7,15 @@ description: Các phiên bản đã phát hành và thay đổi trong từng b�
 Bộ cài của từng bản có ở trang [Releases](https://github.com/tdphuong97/digitalsignage/releases).
 
 {% updates format="full" %}
+{% update date="2026-11-08" %}
+## Phiên bản 1.0.2
+
+* Hướng dẫn mở trong một cửa sổ riêng của phần mềm, không mở trình duyệt nữa. Các liên kết ra Internet trong hướng dẫn vẫn mở bằng trình duyệt.
+* Nút **Xem** ở từng dòng mở ảnh, video trong cửa sổ xem của phần mềm.
+* Link TV 1, TV 2 hiện ở đầu cửa sổ chính, có nút **Chép** và **Xem** (xem trang TV đang chiếu).
+* Tên file trên TV không còn khoảng trắng: mỗi khoảng trắng được đổi thành dấu `-`, ví dụ `Chào mừng.jpg` thành `Chào-mừng.jpg`. File đã đưa lên trước bản này giữ nguyên tên.
+{% endupdate %}
+
 {% update date="2026-11-07" %}
 ## Phiên bản 1.0.1
 

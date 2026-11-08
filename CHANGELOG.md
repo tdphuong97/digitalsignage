@@ -2,6 +2,12 @@
 
 Mỗi phiên bản là một mục `## <phiên bản>`, mỗi thay đổi một dòng. `build\publish.ps1` lấy đúng mục của phiên bản đang phát hành làm ghi chú cho bản cập nhật.
 
+## 1.0.2
+- Hướng dẫn mở trong một cửa sổ riêng của phần mềm, không mở trình duyệt nữa. Các liên kết ra Internet trong hướng dẫn vẫn mở bằng trình duyệt.
+- Nút Xem ở từng dòng mở ảnh, video trong cửa sổ xem của phần mềm.
+- Link TV 1, TV 2 hiện ở đầu cửa sổ chính, có nút Chép và Xem (xem trang TV đang chiếu).
+- Tên file trên TV không còn khoảng trắng: mỗi khoảng trắng được đổi thành dấu -, ví dụ "Chào mừng.jpg" thành "Chào-mừng.jpg". File đã đưa lên trước bản này giữ nguyên tên.
+
 ## 1.0.1
 - Nút Hướng dẫn ở góc trên cửa sổ (hoặc nhấn F1) mở hướng dẫn sử dụng ngay trên máy, không cần mạng.
 
