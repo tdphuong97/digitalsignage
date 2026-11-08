@@ -8,6 +8,12 @@ Bộ cài của từng bản có ở trang [Releases](https://github.com/tdphuon
 
 {% updates format="full" %}
 {% update date="2026-11-08" %}
+## Phiên bản 1.0.4
+
+* Tên file trên TV không dấu: chữ có dấu thành chữ không dấu (đ thành d), ví dụ `Chào mừng.jpg` thành `Chao-mung.jpg`. File trên máy giữ nguyên tên; file đã đưa lên từ trước giữ tên cũ.
+{% endupdate %}
+
+{% update date="2026-11-08" %}
 ## Phiên bản 1.0.3
 
 * Theo dõi TV: chấm trạng thái trên thẻ TV 1, TV 2 và dòng "TV đang chiếu · báo lúc …"; **Chẩn đoán** có thêm mục Tín hiệu từ TV và nhật ký của từng TV khi chép kết quả. Cần cập nhật máy chủ lên bản 2, bản này cũng cho TV mở được trang chiếu khi chưa có Wi-Fi.

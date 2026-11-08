@@ -2,6 +2,9 @@
 
 Mỗi phiên bản là một mục `## <phiên bản>`, mỗi thay đổi một dòng. `build\publish.ps1` lấy đúng mục của phiên bản đang phát hành làm ghi chú cho bản cập nhật.
 
+## 1.0.4
+- Tên file trên TV không dấu: chữ có dấu thành chữ không dấu (đ thành d), ví dụ "Chào mừng.jpg" thành "Chao-mung.jpg". File trên máy giữ nguyên tên; file đã đưa lên từ trước giữ tên cũ.
+
 ## 1.0.3
 - Theo dõi TV: chấm trạng thái trên thẻ TV 1, TV 2 và dòng "TV đang chiếu · báo lúc …"; Chẩn đoán có thêm mục Tín hiệu từ TV và nhật ký của từng TV khi chép kết quả. Cần cập nhật máy chủ lên bản 2, bản này cũng cho TV mở được trang chiếu khi chưa có Wi-Fi.
 - Nút Chẩn đoán ở góc trên cửa sổ: tự kiểm tra kết nối, mã API, nội dung trên 2 TV (TV trống, file nén dở, file không chiếu được), trang chiếu, bộ nén video, ổ đĩa, phiên bản, lịch đồng bộ cũ trên máy, kèm cách xử lý và nút Chép kết quả để gửi IT.

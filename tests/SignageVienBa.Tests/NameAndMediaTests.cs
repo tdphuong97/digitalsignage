@@ -5,21 +5,38 @@ namespace SignageVienBa.Tests;
 
 public class NameRulesTests
 {
-    [Fact]
-    public void SafeName_keeps_vietnamese_and_normalises_to_nfc()
+    [Theory]
+    [InlineData("Khai trương")]                                   // NFC, as typed on Windows
+    [InlineData("Khai tru\u031Bo\u031Bng")]                       // NFD, as some cameras and Macs write it
+    public void SafeName_drops_vietnamese_marks_in_either_normal_form(string stem) =>
+        Assert.Equal("Khai-truong.mp4", NameRules.SafeName($@"D:\video\{stem}.MOV", ".mp4"));
+
+    [Theory]
+    [InlineData("Đường Lê Lợi - Đà Nẵng", "Duong-Le-Loi-Da-Nang")]
+    [InlineData("ẢNH SẢNH TẦNG 1", "ANH-SANH-TANG-1")]
+    [InlineData("Ưu đãi Ơn giời Ỷ Ỹ Ỵ", "Uu-dai-On-gioi-Y-Y-Y")]
+    [InlineData("Thực đơn tuần", "Thuc-don-tuan")]
+    public void SafeName_is_plain_ascii_for_vietnamese(string stem, string expected)
     {
-        var nfd = "Khai trương".Normalize(NormalizationForm.FormD);
-        var name = NameRules.SafeName($@"D:\video\{nfd}.MOV", ".mp4");
-        Assert.Equal("Khai-trương.mp4", name);
-        Assert.True(name.IsNormalized(NormalizationForm.FormC));
+        var name = NameRules.SafeName($@"C:\x\{stem}.jpg", ".jpg");
+        Assert.Equal(expected + ".jpg", name);
+        Assert.All(name, ch => Assert.InRange(ch, ' ', '~'));
+    }
+
+    [Fact]
+    public void RemoveMarks_leaves_other_text_alone()
+    {
+        Assert.Equal("Chao mung Da Nang", NameRules.RemoveMarks("Chào mừng Đà Nẵng"));
+        Assert.Equal("ABC_123 (2)", NameRules.RemoveMarks("ABC_123 (2)"));
+        Assert.Equal("北京", NameRules.RemoveMarks("北京"));
     }
 
     [Theory]
-    [InlineData(@"C:\a\Sự kiện #1?.jpg", ".jpg", "Sự-kiện-1-.jpg")]
-    [InlineData(@"C:\a\giảm 50%.PNG", ".PNG", "giảm-50-.png")]
-    [InlineData(@"C:\a\  nhiều    khoảng   trắng  .jpg", ".jpg", "nhiều-khoảng-trắng.jpg")]
-    [InlineData(@"C:\a\02 - Khuyến mãi tháng 11.MP4", ".mp4", "02-Khuyến-mãi-tháng-11.mp4")]
-    [InlineData(@"C:\a\01--Chào.jpg", ".jpg", "01--Chào.jpg")]
+    [InlineData(@"C:\a\Sự kiện #1?.jpg", ".jpg", "Su-kien-1-.jpg")]
+    [InlineData(@"C:\a\giảm 50%.PNG", ".PNG", "giam-50-.png")]
+    [InlineData(@"C:\a\  nhiều    khoảng   trắng  .jpg", ".jpg", "nhieu-khoang-trang.jpg")]
+    [InlineData(@"C:\a\02 - Khuyến mãi tháng 11.MP4", ".mp4", "02-Khuyen-mai-thang-11.mp4")]
+    [InlineData(@"C:\a\01--Chào.jpg", ".jpg", "01--Chao.jpg")]
     [InlineData(@"C:\a\....jpg", ".jpg", "noi-dung.jpg")]
     public void SafeName_replaces_characters_that_break_urls(string path, string ext, string expected) =>
         Assert.Equal(expected, NameRules.SafeName(path, ext));
@@ -107,6 +124,6 @@ public class MediaTypesTests : IDisposable
     public void TargetName_turns_every_video_into_mp4()
     {
         Assert.Equal("clip.mp4", Uploader.TargetName(@"C:\x\clip.MOV"));
-        Assert.Equal("ảnh.jpg", Uploader.TargetName(@"C:\x\ảnh.JPG"));
+        Assert.Equal("anh.jpg", Uploader.TargetName(@"C:\x\ảnh.JPG"));
     }
 }

@@ -32,8 +32,8 @@ Từ máy chủ bản 2, trang chiếu gửi `POST /heartbeat?screen=<số TV>` 
 
 | TV | Link | Tên file trong R2 |
 | --- | --- | --- |
-| TV 1 | `https://signage.vienba.workers.dev/` | Ở gốc kho, ví dụ `01-Chào-mừng.jpg` |
-| TV 2 | `https://signage.vienba.workers.dev/?screen=2` | Có tiền tố `screen2/`, ví dụ `screen2/01-Tin-tức.jpg` |
+| TV 1 | `https://signage.vienba.workers.dev/` | Ở gốc kho, ví dụ `01-Chao-mung.jpg` |
+| TV 2 | `https://signage.vienba.workers.dev/?screen=2` | Có tiền tố `screen2/`, ví dụ `screen2/01-Tin-tuc.jpg` |
 
 Phần mềm hiện hai link này ở đầu cửa sổ chính (**Link TV 1**, **Link TV 2**), lấy theo **Địa chỉ máy chủ** trong **Cài đặt**. Phần mềm không đổi link TV. Cài phần mềm trên máy mới không cần làm gì trên TV.
 

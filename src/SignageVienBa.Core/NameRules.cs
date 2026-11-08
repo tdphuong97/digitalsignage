@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -13,12 +14,13 @@ public static partial class NameRules
     private const int MaxStemLength = 120;
 
     /// <summary>
-    /// File name to store on the TV: the original name (NFC, unsafe characters replaced by '-', and no spaces:
-    /// each run of spaces, with the dashes around it, becomes one '-') with the given extension in lower case.
+    /// File name to store on the TV: the original name without Vietnamese marks ("Chào mừng Đà Nẵng" → "Chao mung
+    /// Da Nang"), unsafe characters replaced by '-', and no spaces (each run of spaces, with the dashes around it,
+    /// becomes one '-'), with the given extension in lower case. The file on the PC keeps its name.
     /// </summary>
     public static string SafeName(string sourcePath, string extension)
     {
-        var stem = Path.GetFileNameWithoutExtension(sourcePath).Normalize(NormalizationForm.FormC);
+        var stem = RemoveMarks(Path.GetFileNameWithoutExtension(sourcePath));
         var sb = new StringBuilder(stem.Length);
         foreach (var ch in stem)
             sb.Append(char.IsControl(ch) || Bad.Contains(ch) ? '-' : ch);
@@ -31,6 +33,21 @@ public static partial class NameRules
         }
         if (clean.Length == 0) clean = "noi-dung";
         return clean + extension.ToLowerInvariant();
+    }
+
+    /// <summary>
+    /// Letters without their accents and tone marks, in NFC: "Ảnh sảnh Đông" → "Anh sanh Dong". 'đ'/'Đ' have no
+    /// decomposition, so they are mapped by hand. Other scripts and symbols are left as they are.
+    /// </summary>
+    public static string RemoveMarks(string text)
+    {
+        var sb = new StringBuilder(text.Length);
+        foreach (var ch in text.Normalize(NormalizationForm.FormD))
+        {
+            if (CharUnicodeInfo.GetUnicodeCategory(ch) == UnicodeCategory.NonSpacingMark) continue;
+            sb.Append(ch switch { 'đ' => 'd', 'Đ' => 'D', _ => ch });
+        }
+        return sb.ToString().Normalize(NormalizationForm.FormC);
     }
 
     /// <summary>"a.mp4" → "a-2.mp4" when "a.mp4" is already taken (case-insensitive).</summary>
