@@ -19,7 +19,7 @@ Bấm **Cài đặt** ở góc trên bên phải cửa sổ chính. Cửa sổ *
 | Tùy chọn | Ý nghĩa |
 | --- | --- |
 | **Phiên bản …** | Số phiên bản đang dùng. Ghi lại số này khi báo lỗi. |
-| **Kiểm tra bản mới** | Kiểm tra ngay thay vì chờ lần mở sau. Nếu có bản mới, thanh **Có bản mới …** hiện ở cửa sổ chính, xem [Cập nhật phần mềm](../su-dung/cap-nhat-phan-mem.md). |
+| **Kiểm tra bản mới** | Kiểm tra ngay thay vì chờ lần mở sau. Nếu có bản mới, nút **Cập nhật ngay** hiện ngay tại đây (và thanh **Có bản mới …** ở cửa sổ chính), xem [Cập nhật phần mềm](../su-dung/cap-nhat-phan-mem.md). |
 
 ## Biến môi trường (dành cho IT)
 

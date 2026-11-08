@@ -15,6 +15,7 @@ description: Phần mềm Windows để đưa ảnh, video lên 2 TV trình chi�
 * **Kéo thả là xong**: kéo ảnh, video hoặc cả thư mục vào cửa sổ, rồi bấm **Đưa lên TV 1**.
 * **Tự chỉnh video**: video ngang hay video quay bằng điện thoại đều được chỉnh về khổ dọc 1080×1920, nền mờ, dưới 85 MB.
 * **Thấy ngay TV đang chiếu gì**: danh sách bên trái đúng theo thứ tự chiếu, có nút **Xem** và **Xóa** ở từng dòng. Ở đầu cửa sổ có link của TV 1, TV 2, bấm **Xem** để xem trang TV đang chiếu ngay trong phần mềm.
+* **Tự chẩn đoán**: bấm **Chẩn đoán** để kiểm tra kết nối, mã API, nội dung trên 2 TV và máy đang dùng, kèm cách xử lý từng lỗi.
 * **Tự cập nhật**: có bản mới thì phần mềm báo, bấm **Cập nhật ngay** là xong.
 * **Hướng dẫn ngay trong phần mềm**: bấm **Hướng dẫn** ở góc trên cửa sổ hoặc nhấn `F1`, hướng dẫn mở trong một cửa sổ riêng, xem được cả khi không có mạng.
 

@@ -4,6 +4,8 @@ description: Nguyên nhân và cách khắc phục từng thông báo lỗi củ
 
 # Xử lý sự cố
 
+Không rõ lỗi ở đâu thì bấm **Chẩn đoán** ở góc trên cửa sổ trước: phần mềm tự kiểm tra và chỉ ra việc cần làm, xem [Chạy chẩn đoán](chan-doan.md).
+
 Mỗi mục dưới đây là đúng câu phần mềm hiện ra. Tìm câu bạn thấy (nhấn `Ctrl` + `F`), đọc nguyên nhân và làm theo cách khắc phục.
 
 ## Kết nối
@@ -200,6 +202,7 @@ Xem phần lỗi trong [Cập nhật phần mềm](../su-dung/cap-nhat-phan-mem.
 
 Nếu các cách trên không được, hoặc gặp hộp **Có lỗi không mong muốn**, gửi cho bộ phận IT:
 
+* kết quả chẩn đoán: bấm **Chẩn đoán**, chờ xong, bấm **Chép kết quả** rồi dán vào tin nhắn;
 * số phiên bản (trong **Cài đặt**, dòng **Phiên bản …**);
 * ảnh chụp màn hình lúc lỗi (`Win` + `Shift` + `S`);
 * file `log.txt` trong thư mục `%APPDATA%\SignageVienBa` (dán đường dẫn này vào thanh địa chỉ của File Explorer).

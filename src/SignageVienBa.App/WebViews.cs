@@ -15,10 +15,13 @@ internal static class WebViews
 {
     private static Task<CoreWebView2Environment>? _environment;
 
-    public static bool RuntimeInstalled()
+    public static bool RuntimeInstalled() => RuntimeVersion() is not null;
+
+    /// <summary>The installed WebView2 runtime's version, or null when there is none.</summary>
+    public static string? RuntimeVersion()
     {
-        try { return !string.IsNullOrEmpty(CoreWebView2Environment.GetAvailableBrowserVersionString()); }
-        catch (Exception e) when (e is WebView2RuntimeNotFoundException or DllNotFoundException) { return false; }
+        try { return CoreWebView2Environment.GetAvailableBrowserVersionString() is { Length: > 0 } v ? v : null; }
+        catch (Exception e) when (e is WebView2RuntimeNotFoundException or DllNotFoundException) { return null; }
     }
 
     // One browser profile for the app, kept out of the roaming profile (the installer removes it on uninstall).

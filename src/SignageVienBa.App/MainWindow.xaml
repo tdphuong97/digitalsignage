@@ -9,6 +9,14 @@
         ContentRendered="Window_ContentRendered" Closing="Window_Closing" PreviewKeyDown="Window_PreviewKeyDown">
   <Window.Resources>
     <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+    <!-- the dot on a TV card: hidden until the server says something about that TV -->
+    <Style x:Key="LiveDot" TargetType="Ellipse">
+      <Style.Triggers>
+        <Trigger Property="Fill" Value="{x:Null}">
+          <Setter Property="Visibility" Value="Collapsed"/>
+        </Trigger>
+      </Style.Triggers>
+    </Style>
   </Window.Resources>
 
   <Grid Margin="28,22,28,24">
@@ -50,6 +58,9 @@
               VerticalAlignment="Top" Click="Settings_Click"/>
       <Button x:Name="GuideButton" DockPanel.Dock="Right" Style="{StaticResource GhostButton}" Tag="&#xE897;" Content="Hướng dẫn"
               VerticalAlignment="Top" Margin="0,0,4,0" Click="Guide_Click" ToolTip="Mở hướng dẫn sử dụng (F1)"/>
+      <Button x:Name="DiagnoseButton" DockPanel.Dock="Right" Style="{StaticResource GhostButton}" Tag="&#xE9D9;" Content="Chẩn đoán"
+              VerticalAlignment="Top" Margin="0,0,4,0" Click="Diagnose_Click"
+              ToolTip="Kiểm tra kết nối, mã API, nội dung trên 2 TV và máy này"/>
       <StackPanel>
         <TextBlock Text="Đưa nội dung lên TV" FontSize="23" FontWeight="SemiBold"/>
         <TextBlock Style="{StaticResource Muted}" FontSize="13.5" Margin="0,3,0,0"
@@ -63,9 +74,14 @@
       <RadioButton x:Name="Tv1Tab" Style="{StaticResource TvTab}" GroupName="Tv" Tag="1" IsChecked="True"
                    Checked="Tv_Checked" AutomationProperties.Name="TV 1">
         <StackPanel Orientation="Horizontal">
-          <Border Style="{StaticResource TvTabIcon}">
-            <TextBlock Style="{StaticResource Icon}" Text="&#xE7F4;" FontSize="17"/>
-          </Border>
+          <Grid>
+            <Border Style="{StaticResource TvTabIcon}">
+              <TextBlock Style="{StaticResource Icon}" Text="&#xE7F4;" FontSize="17"/>
+            </Border>
+            <Ellipse Width="11" Height="11" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,-3,-3,0"
+                     Fill="{Binding Tv1LiveBrush}" Stroke="{StaticResource SurfaceBrush}" StrokeThickness="2"
+                     ToolTip="{Binding Tv1LiveTip}" Style="{StaticResource LiveDot}"/>
+          </Grid>
           <StackPanel Margin="12,0,0,0" VerticalAlignment="Center">
             <TextBlock Text="TV 1" FontSize="15.5" FontWeight="SemiBold"/>
             <TextBlock Text="{Binding Tv1Count}" Style="{StaticResource Muted}"/>
@@ -75,9 +91,14 @@
       <RadioButton x:Name="Tv2Tab" Style="{StaticResource TvTab}" GroupName="Tv" Tag="2"
                    Checked="Tv_Checked" AutomationProperties.Name="TV 2">
         <StackPanel Orientation="Horizontal">
-          <Border Style="{StaticResource TvTabIcon}">
-            <TextBlock Style="{StaticResource Icon}" Text="&#xE7F4;" FontSize="17"/>
-          </Border>
+          <Grid>
+            <Border Style="{StaticResource TvTabIcon}">
+              <TextBlock Style="{StaticResource Icon}" Text="&#xE7F4;" FontSize="17"/>
+            </Border>
+            <Ellipse Width="11" Height="11" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,-3,-3,0"
+                     Fill="{Binding Tv2LiveBrush}" Stroke="{StaticResource SurfaceBrush}" StrokeThickness="2"
+                     ToolTip="{Binding Tv2LiveTip}" Style="{StaticResource LiveDot}"/>
+          </Grid>
           <StackPanel Margin="12,0,0,0" VerticalAlignment="Center">
             <TextBlock Text="TV 2" FontSize="15.5" FontWeight="SemiBold"/>
             <TextBlock Text="{Binding Tv2Count}" Style="{StaticResource Muted}"/>
@@ -137,7 +158,8 @@
                     Click="Refresh_Click" VerticalAlignment="Center"/>
             <StackPanel VerticalAlignment="Center">
               <TextBlock Style="{StaticResource CardTitle}" Text="{Binding RemoteTitle}"/>
-              <TextBlock Style="{StaticResource Muted}" Margin="0,2,0,0" Text="Thứ tự chiếu như danh sách dưới đây"/>
+              <TextBlock Style="{StaticResource Muted}" Margin="0,2,0,0" Text="{Binding RemoteSubtitle}"
+                         Foreground="{Binding RemoteSubtitleBrush}" AutomationProperties.AutomationId="LiveText"/>
             </StackPanel>
           </DockPanel>
 
@@ -177,8 +199,12 @@
                           Visibility="{Binding ShowRemoteMessage, Converter={StaticResource BoolToVis}}">
                 <TextBlock Text="{Binding RemoteMessage}" TextAlignment="Center" TextWrapping="Wrap"
                            Foreground="{StaticResource MutedBrush}" MaxWidth="320"/>
-                <Button Style="{StaticResource SecondaryButton}" Content="Thử lại" Margin="0,14,0,0" HorizontalAlignment="Center"
-                        Click="Refresh_Click" Visibility="{Binding RemoteFailed, Converter={StaticResource BoolToVis}}"/>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,14,0,0"
+                            Visibility="{Binding RemoteFailed, Converter={StaticResource BoolToVis}}">
+                  <Button Style="{StaticResource SecondaryButton}" Content="Thử lại" Click="Refresh_Click"/>
+                  <Button Style="{StaticResource GhostButton}" Tag="&#xE9D9;" Content="Chạy chẩn đoán" Click="Diagnose_Click"
+                          Margin="8,0,0,0" Foreground="{StaticResource AccentBrush}"/>
+                </StackPanel>
               </StackPanel>
             </Grid>
           </Border>

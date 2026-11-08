@@ -19,7 +19,7 @@ internal static class LinkCopy
         catch (ExternalException)
         {
             // another program is holding the clipboard
-            MessageBox.Show(Window.GetWindow(button)!, "Không chép được link. Thử bấm lại.", "Signage Viên Ba",
+            MessageBox.Show(Window.GetWindow(button)!, "Không chép được. Thử bấm lại.", "Signage Viên Ba",
                 MessageBoxButton.OK, MessageBoxImage.Warning);
             return;
         }

@@ -24,11 +24,13 @@
 * [Chuyển sang phần mềm mới](quan-tri/chuyen-sang-phan-mem-moi.md)
 * [Mã API](quan-tri/ma-api.md)
 * [Cách hệ thống hoạt động](quan-tri/he-thong.md)
+* [Cập nhật máy chủ và trang chiếu](quan-tri/cap-nhat-may-chu.md)
 * [Phát hành bản mới](quan-tri/phat-hanh.md)
 
 ## Tham khảo
 
 * [Tùy chọn](tham-khao/tuy-chon.md)
+* [Chạy chẩn đoán](tham-khao/chan-doan.md)
 * [Xử lý sự cố](tham-khao/xu-ly-su-co.md)
 * [Câu hỏi thường gặp](tham-khao/cau-hoi-thuong-gap.md)
 * [Nhật ký thay đổi](tham-khao/nhat-ky-thay-doi.md)

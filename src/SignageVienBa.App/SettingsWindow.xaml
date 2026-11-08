@@ -27,6 +27,9 @@
 
     <Border BorderBrush="{StaticResource LineBrush}" BorderThickness="0,1,0,0" Margin="0,22,0,0" Padding="0,16,0,0">
       <DockPanel>
+        <Button x:Name="UpdateNowButton" DockPanel.Dock="Right" Style="{StaticResource PrimaryButton}" Tag="&#xE896;"
+                Content="Cập nhật ngay" Padding="14,8" Click="UpdateNow_Click" VerticalAlignment="Center" Visibility="Collapsed"
+                ToolTip="Đóng Cài đặt, tải và cài bản mới; phần mềm tự mở lại"/>
         <Button x:Name="UpdateCheckButton" DockPanel.Dock="Right" Style="{StaticResource GhostButton}" Tag="&#xE895;"
                 Content="Kiểm tra bản mới" Click="CheckUpdate_Click" VerticalAlignment="Top"/>
         <StackPanel>

@@ -134,6 +134,20 @@ public sealed class VideoTools(string ffmpegPath, string ffprobePath)
         return null;
     }
 
+    /// <summary>Runs "ffmpeg -version" and ffprobe's; returns ffmpeg's version line ("ffmpeg version N-…").</summary>
+    public async Task<string> VersionAsync(CancellationToken ct)
+    {
+        foreach (var exe in new[] { FfprobePath, FfmpegPath })
+        {
+            var (exit, _, stderr) = await RunAsync(exe, ["-hide_banner", "-version"], null, ct);
+            if (exit != 0) throw new SignageException($"{Path.GetFileName(exe)} không chạy được. " + LastLine(stderr));
+        }
+        var (_, stdout, _) = await RunAsync(FfmpegPath, ["-hide_banner", "-version"], null, ct);
+        var first = stdout.Split('\n', 2)[0].Trim();
+        var cut = first.IndexOf(" Copyright", StringComparison.Ordinal);
+        return cut > 0 ? first[..cut] : first;
+    }
+
     public async Task<VideoInfo> ProbeAsync(string path, CancellationToken ct)
     {
         var (exit, stdout, stderr) = await RunAsync(FfprobePath,

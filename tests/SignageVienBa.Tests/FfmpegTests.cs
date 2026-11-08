@@ -46,6 +46,14 @@ public class FfmpegTests : IDisposable
     public void Dispose() => Directory.Delete(_dir, recursive: true);
 
     [FfmpegFact]
+    public async Task Version_line_is_short_for_the_diagnosis()
+    {
+        var version = await Clips.Tools.VersionAsync(CancellationToken.None);
+        Assert.StartsWith("ffmpeg version ", version);
+        Assert.DoesNotContain("Copyright", version);
+    }
+
+    [FfmpegFact]
     public async Task Landscape_60fps_clip_becomes_portrait_1080x1920_30fps_with_audio()
     {
         var src = Clips.Make(_dir, "ngang có dấu.mov", 1920, 1080, 60, 3, audio: true);

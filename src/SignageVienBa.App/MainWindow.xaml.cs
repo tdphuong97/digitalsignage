@@ -135,7 +135,10 @@ public partial class MainWindow : Window, INotifyPropertyChanged
         if (VideoTools.Locate() is null)
             MessageBox.Show(this, "Không tìm thấy bộ nén video (thư mục ffmpeg cạnh phần mềm). Ảnh vẫn đưa lên được, nhưng video thì không. Hãy cài lại phần mềm.",
                 "Signage Viên Ba", MessageBoxButton.OK, MessageBoxImage.Warning);
-        await Task.WhenAll(LoadRemoteAsync(), LoadCountAsync(new TvScreen(2)));
+        await Task.WhenAll(LoadRemoteAsync(), LoadCountAsync(new TvScreen(2)), RefreshLiveAsync());
+        var liveTimer = new System.Windows.Threading.DispatcherTimer { Interval = TimeSpan.FromMinutes(1) };
+        liveTimer.Tick += async (_, _) => await RefreshLiveAsync();
+        liveTimer.Start();
 
         if (_justUpdated) Update.ShowUpdated(CurrentVersion);
         else await CheckForUpdateAsync();
@@ -149,23 +152,28 @@ public partial class MainWindow : Window, INotifyPropertyChanged
 
     public static string CurrentVersion => typeof(App).Assembly.GetName().Version?.ToString(3) ?? "0.0.0";
 
-    /// <summary>Looks for a newer release; returns a sentence for the Settings window.</summary>
-    public async Task<string> CheckForUpdateAsync()
+    /// <summary>Looks for a newer release; returns a sentence for the Settings window and whether there is one.</summary>
+    public async Task<UpdateCheck> CheckForUpdateAsync()
     {
         try
         {
             var info = await new Updater(AppSettings.Http, Updater.Feed).CheckAsync(CurrentVersion, CancellationToken.None);
-            if (info is null) return $"Bạn đang dùng bản mới nhất ({CurrentVersion}).";
+            if (info is null) return new($"Bạn đang dùng bản mới nhất ({CurrentVersion}).", false);
             Update.ShowAvailable(info);
-            return $"Có bản mới {info.Version}. Bấm Cập nhật ngay ở đầu cửa sổ chính.";
+            return new(AvailableText(info.Version), true);
         }
         catch (UpdateException e)
         {
-            return e.Message;
+            return new(e.Message, false, Failed: true);
         }
     }
 
-    private async void UpdatePrimary_Click(object sender, RoutedEventArgs e)
+    public static string AvailableText(string version) => $"Có bản mới {version}.";
+
+    private async void UpdatePrimary_Click(object sender, RoutedEventArgs e) => await StartUpdateAsync();
+
+    /// <summary>Downloads the update the banner offers, then hands over to its installer (or checks again if none).</summary>
+    private async Task StartUpdateAsync()
     {
         if (Update.Info is null)
         {
@@ -227,6 +235,8 @@ public partial class MainWindow : Window, INotifyPropertyChanged
 
     private void Guide_Click(object sender, RoutedEventArgs e) => OpenGuide();
 
+    private void Diagnose_Click(object sender, RoutedEventArgs e) => DiagnosticsWindow.Open(this, _settings, CheckForUpdateAsync);
+
     private void Window_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
     {
         if (e.Key != System.Windows.Input.Key.F1) return;
@@ -263,11 +273,12 @@ public partial class MainWindow : Window, INotifyPropertyChanged
         _tv = new TvScreen(int.Parse((string)((FrameworkElement)sender).Tag));
         _lastResult = null;
         Raise(nameof(RemoteTitle));
+        RaiseLive();
         QueueChanged();
         await LoadRemoteAsync();
     }
 
-    private async void Refresh_Click(object sender, RoutedEventArgs e) => await LoadRemoteAsync();
+    private async void Refresh_Click(object sender, RoutedEventArgs e) => await Task.WhenAll(LoadRemoteAsync(), RefreshLiveAsync());
 
     private async Task LoadRemoteAsync(bool quiet = false)
     {
@@ -340,6 +351,61 @@ public partial class MainWindow : Window, INotifyPropertyChanged
         {
             MessageBox.Show(this, ex.Message, "Signage Viên Ba", MessageBoxButton.OK, MessageBoxImage.Warning);
         }
+    }
+
+    // ---------- is each TV playing? (heartbeats the slideshow page sends to the server, Worker v2) ----------
+
+    private static readonly System.Windows.Media.Brush PlayingDot = Frozen(0x16, 0xA3, 0x4A);
+    private static readonly System.Windows.Media.Brush SilentDot = Frozen(0xD9, 0x77, 0x06);
+    private static readonly System.Windows.Media.Brush OffDot = Frozen(0x94, 0xA3, 0xB8);
+    private LiveStatus? _live;
+
+    private static System.Windows.Media.Brush Frozen(byte r, byte g, byte b)
+    {
+        var brush = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(r, g, b));
+        brush.Freeze();
+        return brush;
+    }
+
+    private LiveState LiveOf(TvScreen tv) => _live is null ? LiveState.Unknown : Live.StateOf(_live.For(tv), _live, DateTime.Now);
+
+    public System.Windows.Media.Brush? Tv1LiveBrush => DotFor(new TvScreen(1));
+    public System.Windows.Media.Brush? Tv2LiveBrush => DotFor(new TvScreen(2));
+    public string? Tv1LiveTip => _live is null ? null : Live.ShortText(_live.For(new TvScreen(1)), _live, DateTime.Now);
+    public string? Tv2LiveTip => _live is null ? null : Live.ShortText(_live.For(new TvScreen(2)), _live, DateTime.Now);
+
+    private System.Windows.Media.Brush? DotFor(TvScreen tv) => LiveOf(tv) switch
+    {
+        LiveState.Playing => PlayingDot,
+        LiveState.Silent => SilentDot,
+        LiveState.Off => OffDot,
+        _ => null,
+    };
+
+    /// <summary>Under "Đang chiếu trên TV …": whether that TV is playing, once the server reports it.</summary>
+    public string RemoteSubtitle => _live is null
+        ? "Thứ tự chiếu như danh sách dưới đây"
+        : Live.ShortText(_live.For(_tv), _live, DateTime.Now);
+
+    public System.Windows.Media.Brush RemoteSubtitleBrush => LiveOf(_tv) == LiveState.Silent
+        ? SilentDot
+        : (System.Windows.Media.Brush)FindResource("MutedBrush");
+
+    private async Task RefreshLiveAsync()
+    {
+        try { _live = await _settings.CreateClient().StatusAsync(CancellationToken.None); }
+        catch (SignageException) { _live = null; }   // offline or no server yet: show nothing rather than guess
+        RaiseLive();
+    }
+
+    private void RaiseLive()
+    {
+        Raise(nameof(Tv1LiveBrush));
+        Raise(nameof(Tv2LiveBrush));
+        Raise(nameof(Tv1LiveTip));
+        Raise(nameof(Tv2LiveTip));
+        Raise(nameof(RemoteSubtitle));
+        Raise(nameof(RemoteSubtitleBrush));
     }
 
     // ---------- TV links (the slideshow page each TV opens) ----------
@@ -559,10 +625,16 @@ public partial class MainWindow : Window, INotifyPropertyChanged
 
     private bool OpenSettings(bool firstRun)
     {
-        var window = new SettingsWindow(_settings, firstRun, CheckForUpdateAsync) { Owner = this };
-        if (window.ShowDialog() != true) return false;
-        Raise(nameof(Tv1Link));
-        Raise(nameof(Tv2Link));
-        return true;
+        var pending = Update.State == UpdateBanner.Mode.Available ? Update.Info?.Version : null;
+        var window = new SettingsWindow(_settings, firstRun, CheckForUpdateAsync, pending) { Owner = this };
+        var saved = window.ShowDialog() == true;
+        if (saved)
+        {
+            Raise(nameof(Tv1Link));
+            Raise(nameof(Tv2Link));
+        }
+        // Cập nhật ngay in Settings: same as the banner's button, progress shows in the banner.
+        if (window.UpdateRequested) _ = StartUpdateAsync();
+        return saved;
     }
 }

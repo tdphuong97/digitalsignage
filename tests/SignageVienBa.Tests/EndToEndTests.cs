@@ -33,6 +33,36 @@ public class EndToEndTests : IDisposable
     }
 
     [E2EFact]
+    public async Task Heartbeat_from_the_slideshow_shows_in_status_and_stays_out_of_the_playlist()
+    {
+        // screen 9 and a fresh marker: other runs and real pages may post for TV 1 and TV 2 meanwhile
+        var client = new SignageClient(_http, Url, Key);
+        var mark = Guid.NewGuid().ToString("N");
+        var body = $$"""
+            {"v":"2","playing":"screen9/a.jpg","up":60000,"online":true,"sw":true,"files":1,"ua":"e2e",
+             "events":[{"type":"load","detail":"{{mark}}","ago":60000},{"type":"online","detail":"{{mark}}","ago":30000}]}
+            """;
+        using (var resp = await _http.PostAsync(new Uri(new Uri(Url), "/heartbeat?screen=9"),
+                   new StringContent(body, System.Text.Encoding.UTF8, "application/json")))
+            resp.EnsureSuccessStatusCode();
+
+        var live = await client.StatusAsync(CancellationToken.None);
+        var tv9 = Assert.IsType<TvStatus>(live!.For(new TvScreen(9)));
+        Assert.Equal("screen9/a.jpg", tv9.Playing);
+        Assert.True(tv9.OfflineReady);
+        Assert.True(live.ServerNow - tv9.Seen < TimeSpan.FromMinutes(1));
+        var mine = tv9.Events.Where(e => e.Detail == mark).ToList();
+        Assert.Equal(["load", "online"], mine.Select(e => e.Type));
+        Assert.InRange(mine[1].At - mine[0].At, TimeSpan.FromSeconds(29), TimeSpan.FromSeconds(31));
+        var loaded = Assert.IsType<DateTimeOffset>(tv9.LoadedAt);
+        Assert.InRange(tv9.Seen - loaded, TimeSpan.FromSeconds(59), TimeSpan.FromSeconds(61));
+
+        // the status record and the page's files never reach a playlist
+        var tv1 = await client.ListAsync(new TvScreen(1), CancellationToken.None);
+        Assert.DoesNotContain(tv1, k => k.StartsWith("status/") || k is "index.html" or "sw.js");
+    }
+
+    [E2EFact]
     public async Task Video_is_compressed_uploaded_listed_played_and_deleted_on_tv2()
     {
         var client = new SignageClient(_http, Url, Key);
@@ -73,7 +103,7 @@ public class EndToEndTests : IDisposable
         await File.WriteAllBytesAsync(img, [0xFF, 0xD8, 0xFF, 1, 2, 3]);
         var uploader = new Uploader(Clips.Tools, client);
         var key = await uploader.RunAsync(img, Uploader.TargetName(img), tv1, null, CancellationToken.None);
-        Assert.Equal("Ảnh sảnh.jpg", key);
+        Assert.Equal("Ảnh-sảnh.jpg", key);
 
         await File.WriteAllBytesAsync(img, [0xFF, 0xD8, 0xFF, 9, 9, 9, 9]);
         await uploader.RunAsync(img, Uploader.TargetName(img), tv1, null, CancellationToken.None);

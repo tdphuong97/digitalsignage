@@ -30,6 +30,16 @@ Link nằm ở đầu cửa sổ chính, bấm **Chép** để chép. Đây là 
 
 <details>
 
+<summary>TV hiện trang trình duyệt trống (New Tab) thay vì chiếu?</summary>
+
+Thường xảy ra lúc 8:00, khi TV tự bật theo lịch mà Wi-Fi chưa kết nối kịp, nên trình duyệt không mở được trang chiếu. Khi đó chấm của TV đó chuyển sang màu cam. Tắt rồi bật lại TV bằng remote là chiếu lại.
+
+Từ khi máy chủ được cập nhật lên bản 2, trang chiếu tự lưu một bản trên TV nên vẫn mở được khi chưa có mạng. Nếu vẫn gặp, bấm **Chẩn đoán** > **Chép kết quả** và gửi cho IT: kết quả có nhật ký của TV lúc bật máy.
+
+</details>
+
+<details>
+
 <summary>Mỗi ảnh hiện trên TV bao lâu?</summary>
 
 Mỗi ảnh hiện 8 giây. Video chiếu hết rồi mới chuyển sang nội dung tiếp theo.

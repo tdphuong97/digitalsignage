@@ -12,8 +12,8 @@ description: Các thành phần của hệ thống màn hình, đường đi c�
 | --- | --- | --- |
 | Phần mềm **Signage Viên Ba** | Máy tính của người phụ trách nội dung | Nén video, gửi file lên, xóa file, xem danh sách đang chiếu. |
 | Cloudflare Worker `signage` | `https://signage.vienba.workers.dev` | Nhận file, kiểm tra mã API, lưu file vào kho, phục vụ trang trình chiếu và file cho TV. |
-| Kho R2 `signage-vienba` | Cloudflare | Chứa file ảnh, video, danh sách chiếu của từng TV, và trang trình chiếu `index.html`. |
-| TV 1, TV 2 | Sảnh tòa nhà | Mở trang trình chiếu, chiếu lần lượt từng file rồi lặp lại. |
+| Kho R2 `signage-vienba` | Cloudflare | Chứa file ảnh, video, danh sách chiếu của từng TV, trang trình chiếu `index.html`, file lưu sẵn `sw.js` và trạng thái từng TV (`status/`). |
+| TV 1, TV 2 | Sảnh tòa nhà | Màn hình LG 32SM5J dùng Wi-Fi, tự bật 8:00 và tắt 18:00 từ thứ 2 đến thứ 6. Mở trang trình chiếu, chiếu lần lượt từng file rồi lặp lại. |
 
 Màn hình LED (app Xiaohui) không thuộc hệ thống này; nội dung LED vẫn được đưa lên bằng app Xiaohui.
 
@@ -25,6 +25,8 @@ Màn hình LED (app Xiaohui) không thuộc hệ thống này; nội dung LED v�
 4. TV tải lại danh sách khi hết mỗi vòng chiếu, nên nội dung mới lên từ vòng sau.
 
 Xóa đi theo đường tương tự với `DELETE /upload?name=<tên>`. Xem danh sách dùng `GET /manifest.json?screen=<số TV>` và không cần mã.
+
+Từ máy chủ bản 2, trang chiếu gửi `POST /heartbeat?screen=<số TV>` mỗi phút, kèm file đang chiếu và nhật ký gần đây. `GET /status` trả lần báo cuối của từng TV; phần mềm dùng nó cho chấm trạng thái và mục **Tín hiệu từ TV** trong **Chẩn đoán**. Hai địa chỉ này không cần mã và không chứa gì bí mật. Cách đưa bản 2 lên: [Cập nhật máy chủ và trang chiếu](cap-nhat-may-chu.md).
 
 ## Link TV đang mở
 

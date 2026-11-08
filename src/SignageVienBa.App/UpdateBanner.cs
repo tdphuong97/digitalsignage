@@ -2,6 +2,10 @@ using SignageVienBa.Core;
 
 namespace SignageVienBa.App;
 
+/// <summary>Result of "Kiểm tra bản mới": a sentence for the Settings window, whether a newer version exists,
+/// and whether the check itself failed (no network, feed unreachable).</summary>
+public sealed record UpdateCheck(string Message, bool Available, bool Failed = false);
+
 /// <summary>The strip at the top of the main window that offers, downloads or reports an update.</summary>
 public sealed class UpdateBanner : Notifier
 {

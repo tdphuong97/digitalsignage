@@ -21,7 +21,7 @@ Script cũ `sync-to-cloudflare-final.ps1` xóa trên TV mọi file không có tr
 3. Bấm lần lượt từng tác vụ trong danh sách giữa, mở thẻ **Actions** bên dưới. Tác vụ cần tắt có cột **Details** chứa `sync-to-cloudflare-final.ps1`. Thường mỗi màn hình có một tác vụ riêng.
 4. Bấm chuột phải vào tác vụ đó, chọn **Disable**. Cột **Status** đổi thành **Disabled**. Làm tương tự với mọi tác vụ tìm thấy.
 
-Tắt (**Disable**) thay vì xóa, để còn bật lại được nếu cần quay về cách cũ.
+Tắt (**Disable**) thay vì xóa, để còn bật lại được nếu cần quay về cách cũ. Nếu máy này cũng cài phần mềm, bấm **Chẩn đoán**: mục **Lịch đồng bộ cũ trên máy này** phải có dấu tích xanh.
 
 <details>
 

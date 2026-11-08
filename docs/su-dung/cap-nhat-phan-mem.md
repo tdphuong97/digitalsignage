@@ -22,7 +22,7 @@ Mỗi lần mở, và cứ 6 tiếng một lần nếu để mở cả ngày, ph
 
 Nếu bạn đang đưa file lên TV, phần mềm nhắc **Đang đưa file lên TV. Đợi xong rồi bấm Cập nhật ngay.** Đợi các file gửi xong rồi bấm lại.
 
-Muốn tự kiểm tra ngay mà không chờ, bấm **Cài đặt** > **Kiểm tra bản mới**.
+Muốn tự kiểm tra ngay mà không chờ, bấm **Cài đặt** > **Kiểm tra bản mới**. Có bản mới thì nút **Cập nhật ngay** hiện ngay trong cửa sổ **Cài đặt**; bấm nút đó, cửa sổ **Cài đặt** tự đóng và việc tải bản mới hiện ở thanh đầu cửa sổ chính như bước 2.
 
 ## Lỗi thường gặp
 

@@ -37,6 +37,77 @@ public sealed class SignageClient
     /// <summary>The slideshow page a TV opens: the Worker's root for TV 1, "?screen=N" for the others.</summary>
     public Uri PageUri(TvScreen tv) => tv.Number == 1 ? _base : new Uri(_base, $"?screen={tv.Number}");
 
+    /// <summary>
+    /// Every TV's last heartbeat (GET /status). Null when the server does not offer it yet (Worker before v2);
+    /// throws a SignageException when the server cannot be reached.
+    /// </summary>
+    public async Task<LiveStatus?> StatusAsync(CancellationToken ct)
+    {
+        using var cts = WithTimeout(ct, ShortTimeout);
+        HttpResponseMessage resp;
+        try
+        {
+            resp = await _http.GetAsync(new Uri(_base, "status"), HttpCompletionOption.ResponseContentRead, cts.Token);
+        }
+        catch (OperationCanceledException) when (ct.IsCancellationRequested)
+        {
+            throw;
+        }
+        catch (OperationCanceledException e)
+        {
+            throw new SignageException("Máy chủ không phản hồi. Kiểm tra mạng rồi thử lại.", e);
+        }
+        catch (HttpRequestException e)
+        {
+            throw new SignageException("Không kết nối được tới máy chủ. Kiểm tra mạng Internet.", e);
+        }
+        using (resp)
+        {
+            if (resp.StatusCode == HttpStatusCode.NotFound) return null;
+            if (!resp.IsSuccessStatusCode) throw new SignageException($"Máy chủ báo lỗi {(int)resp.StatusCode} khi đọc trạng thái TV.");
+            var body = await resp.Content.ReadAsStringAsync(CancellationToken.None);
+            try
+            {
+                return LiveStatus.Parse(body);
+            }
+            catch (Exception e) when (e is JsonException or KeyNotFoundException or InvalidOperationException or FormatException)
+            {
+                throw new SignageException("Máy chủ trả về trạng thái TV không đọc được.", e);
+            }
+        }
+    }
+
+    /// <summary>Fetches the slideshow page a TV opens; throws a SignageException saying why the TV would show nothing.</summary>
+    public async Task CheckPageAsync(TvScreen tv, CancellationToken ct)
+    {
+        using var cts = WithTimeout(ct, ShortTimeout);
+        HttpResponseMessage resp;
+        try
+        {
+            resp = await _http.GetAsync(PageUri(tv), HttpCompletionOption.ResponseContentRead, cts.Token);
+        }
+        catch (OperationCanceledException) when (ct.IsCancellationRequested)
+        {
+            throw;
+        }
+        catch (OperationCanceledException e)
+        {
+            throw new SignageException("Máy chủ không phản hồi. Kiểm tra mạng rồi thử lại.", e);
+        }
+        catch (HttpRequestException e)
+        {
+            throw new SignageException("Không kết nối được tới máy chủ. Kiểm tra mạng Internet.", e);
+        }
+        using (resp)
+        {
+            if (!resp.IsSuccessStatusCode)
+                throw new SignageException($"Máy chủ không trả về trang chiếu (lỗi {(int)resp.StatusCode}). TV sẽ không hiện gì.");
+            var html = await resp.Content.ReadAsStringAsync(CancellationToken.None);
+            if (!html.Contains("<video", StringComparison.OrdinalIgnoreCase))
+                throw new SignageException("Trang chiếu trên máy chủ không đúng. TV có thể không chiếu được.");
+        }
+    }
+
     /// <summary>The TV's playlist, in play order.</summary>
     public async Task<IReadOnlyList<string>> ListAsync(TvScreen tv, CancellationToken ct)
     {

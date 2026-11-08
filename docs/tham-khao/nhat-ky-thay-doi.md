@@ -8,6 +8,14 @@ Bộ cài của từng bản có ở trang [Releases](https://github.com/tdphuon
 
 {% updates format="full" %}
 {% update date="2026-11-08" %}
+## Phiên bản 1.0.3
+
+* Theo dõi TV: chấm trạng thái trên thẻ TV 1, TV 2 và dòng "TV đang chiếu · báo lúc …"; **Chẩn đoán** có thêm mục Tín hiệu từ TV và nhật ký của từng TV khi chép kết quả. Cần cập nhật máy chủ lên bản 2, bản này cũng cho TV mở được trang chiếu khi chưa có Wi-Fi.
+* Nút **Chẩn đoán** ở góc trên cửa sổ: tự kiểm tra kết nối, mã API, nội dung trên 2 TV (TV trống, file nén dở, file không chiếu được), trang chiếu, bộ nén video, ổ đĩa, phiên bản, lịch đồng bộ cũ trên máy, kèm cách xử lý và nút **Chép kết quả** để gửi IT.
+* **Cài đặt** > **Kiểm tra bản mới**: có bản mới thì nút **Cập nhật ngay** hiện ngay trong cửa sổ **Cài đặt**, không phải đóng cửa sổ rồi mới cập nhật.
+{% endupdate %}
+
+{% update date="2026-11-08" %}
 ## Phiên bản 1.0.2
 
 * Hướng dẫn mở trong một cửa sổ riêng của phần mềm, không mở trình duyệt nữa. Các liên kết ra Internet trong hướng dẫn vẫn mở bằng trình duyệt.

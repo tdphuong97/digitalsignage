@@ -118,6 +118,22 @@ public class SignageClientTests : IDisposable
         Assert.Equal("https://signage.example.dev/screen2/a%20%23b.mp4", client.FileUri("screen2/a #b.mp4").AbsoluteUri);
     }
 
+    [Fact]
+    public async Task Page_check_accepts_the_slideshow_and_refuses_errors_or_other_pages()
+    {
+        var (good, handler) = Make((_, _) => Ok("<!doctype html><video id=\"vid\" playsinline></video>"));
+        await good.CheckPageAsync(new TvScreen(2), CancellationToken.None);
+        Assert.Equal("https://signage.example.dev/?screen=2", handler.Seen.Single().Request.RequestUri!.AbsoluteUri);
+        Assert.False(handler.Seen.Single().Request.Headers.Contains("X-Api-Key"));
+
+        var (missing, _) = Make((_, _) => new HttpResponseMessage(HttpStatusCode.NotFound));
+        var e = await Assert.ThrowsAsync<SignageException>(() => missing.CheckPageAsync(new TvScreen(1), CancellationToken.None));
+        Assert.Contains("404", e.Message);
+
+        var (other, _) = Make((_, _) => Ok("<html>Cloudflare error</html>"));
+        await Assert.ThrowsAsync<SignageException>(() => other.CheckPageAsync(new TvScreen(1), CancellationToken.None));
+    }
+
     [Theory]
     [InlineData("https://signage.example.dev")]
     [InlineData(" https://signage.example.dev/ ")]
